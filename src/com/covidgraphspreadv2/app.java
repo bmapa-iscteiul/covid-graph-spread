@@ -35,13 +35,11 @@ public class app {
 	public static Document doc;
 	
 	public static void main(String[] args) {
+		createHTMLTable();
+		setHTMLTablesCSS();
 		cloneRepository();
 		getAllFilesFromTags();
-		//createHTMLTable();
-		//setHTMLTablesCSS();
-		//String[] tableData = {"timestamp", "filename", "filetag", "filedescription", "link"};
-		//addRowToHTMLTable(0,tableData);
-		//createHTMLFile();
+		createHTMLFile();
 	}
 	
 	public static void getAllFilesFromTags() {
@@ -60,7 +58,7 @@ public class app {
 					if (object instanceof RevCommit) {
 						System.out.println("RevCommit: " + ref.getName());
 						//retrieves file from commit using the commit ObjectId
-						getFileFromCommit(ref.getObjectId());
+						getFileFromCommit(ref.getObjectId(), ref.getName());
 					}
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -75,7 +73,7 @@ public class app {
 		
 	}
 	
-	public static void getFileFromCommit(ObjectId commitId) {
+	public static void getFileFromCommit(ObjectId commitId, String tag) {
 		Repository repository = git.getRepository();
 	
 		try(RevWalk revWalk = new RevWalk(repository)){
@@ -95,19 +93,12 @@ public class app {
 				ObjectId objectId = treeWalk.getObjectId(0);
 				System.out.println(getHyperlinkOfFileFromCommit(commit));
 				ObjectLoader loader = repository.open(objectId);
-				String str = getCommitDescription(commit);
+				addCommitToTable(commit, tag);
 				//loader.copyTo(System.out);
 			}
 			revWalk.dispose();
-		} catch (MissingObjectException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IncorrectObjectTypeException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (Exception e) {
+			
 		}
 	}
 	
@@ -126,15 +117,8 @@ public class app {
 						.setURI("https://github.com/vbasto-iscte/ESII1920")
 						.setDirectory(new File("/path/to/repo"))
 						.call();
-			} catch (InvalidRemoteException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (TransportException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (GitAPIException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (Exception e) {
+				
 			}
 		}
 	}
@@ -152,7 +136,7 @@ public class app {
 		headersRow.append("<th>File name</th>");
 		headersRow.append("<th>File tag</th>");
 		headersRow.append("<th>Tag Description</th>");
-		headersRow.append("<th>Link</th>");
+		headersRow.append("<th>Spread Visualization Link</th>");
 		//System.out.println(doc.toString());
 	}
 	
@@ -221,8 +205,18 @@ public class app {
 	
 	public static String getHyperlinkOfFileFromCommit(RevCommit commit) {
 		String commitId = commit.getName();
-		String hyperlink = "https://github.com/vbasto-iscte/ESII1920/blob/" + commitId + "/covid19spreading.rdf";
+		String hyperlink = "http://www.visualdataweb.de/webvowl/#iri=https://raw.githubusercontent.com/vbasto-iscte/ESII1920/" + commitId + "/covid19spreading.rdf";
 		return hyperlink;
+	}
+	
+	public static void addCommitToTable(RevCommit commit, String tag) {
+		String[] rowData = new String[5];
+		rowData[0] = getCommitTimestamp(commit);
+		rowData[1] = "covid19spreading.rdf";
+		rowData[2] = tag.split("/",0)[2];
+		rowData[3] = commit.getFullMessage();
+		rowData[4] = "<a href='" + getHyperlinkOfFileFromCommit(commit) + "'>Link</a>";
+		addRowToHTMLTable(0, rowData);
 	}
 }
 
