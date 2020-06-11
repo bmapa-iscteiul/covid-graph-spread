@@ -35,13 +35,13 @@ public class app {
 	public static Document doc;
 	
 	public static void main(String[] args) {
-		//cloneRepository();
-		//getAllFilesFromTags();
-		createHTMLTable();
-		setHTMLTablesCSS();
-		String[] tableData = {"timestamp", "filename", "filetag", "filedescription", "link"};
-		addRowToHTMLTable(0,tableData);
-		createHTMLFile();
+		cloneRepository();
+		getAllFilesFromTags();
+		//createHTMLTable();
+		//setHTMLTablesCSS();
+		//String[] tableData = {"timestamp", "filename", "filetag", "filedescription", "link"};
+		//addRowToHTMLTable(0,tableData);
+		//createHTMLFile();
 	}
 	
 	public static void getAllFilesFromTags() {
@@ -93,6 +93,7 @@ public class app {
 				}
 				
 				ObjectId objectId = treeWalk.getObjectId(0);
+				System.out.println(getHyperlinkOfFileFromCommit(commit));
 				ObjectLoader loader = repository.open(objectId);
 				String str = getCommitDescription(commit);
 				//loader.copyTo(System.out);
@@ -216,6 +217,12 @@ public class app {
 	public static String getCommitDescription(RevCommit commit) {
 		System.out.println("Descricao: " + commit.getFullMessage());
 		return commit.getFullMessage();
+	}
+	
+	public static String getHyperlinkOfFileFromCommit(RevCommit commit) {
+		String commitId = commit.getName();
+		String hyperlink = "https://github.com/vbasto-iscte/ESII1920/blob/" + commitId + "/covid19spreading.rdf";
+		return hyperlink;
 	}
 }
 
