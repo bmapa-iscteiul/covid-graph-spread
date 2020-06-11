@@ -1,8 +1,12 @@
 package com.covidgraphspreadv2;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -12,6 +16,7 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -20,14 +25,23 @@ import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 
 public class app {
 
 	public static Git git;
+	public static Document doc;
 	
 	public static void main(String[] args) {
-		cloneRepository();
-		getAllFilesFromTags();
+		//cloneRepository();
+		//getAllFilesFromTags();
+		createHTMLTable();
+		setHTMLTablesCSS();
+		String[] tableData = {"timestamp", "filename", "filetag", "filedescription", "link"};
+		addRowToHTMLTable(0,tableData);
+		createHTMLFile();
 	}
 	
 	public static void getAllFilesFromTags() {
@@ -66,6 +80,7 @@ public class app {
 	
 		try(RevWalk revWalk = new RevWalk(repository)){
 			RevCommit commit = revWalk.parseCommit(commitId);
+			
 			RevTree tree = commit.getTree();
 			System.out.println("Tree: " + tree);
 			
@@ -79,8 +94,8 @@ public class app {
 				
 				ObjectId objectId = treeWalk.getObjectId(0);
 				ObjectLoader loader = repository.open(objectId);
-				
-				loader.copyTo(System.out);
+				String str = getCommitDescription(commit);
+				//loader.copyTo(System.out);
 			}
 			revWalk.dispose();
 		} catch (MissingObjectException e) {
@@ -123,8 +138,84 @@ public class app {
 		}
 	}
 	
-	public void createHTMLTable() {
+	public static void createHTMLTable() {
+		doc = Jsoup.parse("<html></html>");
+		doc.body().addClass("body-styles-cls");
+		doc.body().appendElement("div");
+		doc.body().appendElement("table").attr("id", "t01");
+		doc.body().appendElement("style");
+		Element table = doc.select("table").get(0);
+		table.append("<tr></tr>");
+		Element headersRow = table.select("tr").get(0);
+		headersRow.append("<th>File timestamp</th>");
+		headersRow.append("<th>File name</th>");
+		headersRow.append("<th>File tag</th>");
+		headersRow.append("<th>Tag Description</th>");
+		headersRow.append("<th>Link</th>");
+		//System.out.println(doc.toString());
+	}
+	
+	public static void createHTMLFile() {
+		File out = new File("covid-graph-spread.html");
+	
+		    String html = doc.toString();
+		    BufferedWriter writer;
+			try {
+				writer = new BufferedWriter(new FileWriter(out));
+				writer.write(html);
+			    writer.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    
+	}
+	
+	public static void addRowToHTMLTable(int tableIndex, String[] tableData) {
+		Element table = doc.select("table").get(tableIndex);
+		Element newRow = table.append("<tr></tr>");
+		int newRowIndex = table.select("tr").size() - 1;
+		for(int i =0; i < tableData.length; i++) {
+			table.select("tr").get(newRowIndex).append("<td>" + tableData[i] + "</td>");
+		}
+		System.out.println(doc.toString());
+	}
+	
+	public static void setHTMLTablesCSS() {
+		Element style = doc.select("style").get(0);
+		style.append("table, th, td {border: 1px solid black; border-collapse: collapse;}");
+		style.append("th, td {\r\n" + 
+				"  padding: 15px;\r\n" + 
+				"}");
+		style.append("th {\r\n" + 
+				"  text-align: left;\r\n" + 
+				"}");
+		style.append("table {\r\n" + 
+				"  border-spacing: 5px;\r\n" + 
+				"}");
+		style.append("table#t01 tr:nth-child(even) {\r\n" + 
+				"  background-color: #eee;\r\n" + 
+				"}\r\n" + 
+				"table#t01 tr:nth-child(odd) {\r\n" + 
+				"  background-color: #fff;\r\n" + 
+				"}\r\n" + 
+				"table#t01 th {\r\n" + 
+				"  color: black;\r\n" + 
+				"  background-color: #add8e6;\r\n" + 
+				"}");
 		
+	}
+	
+	public static String getCommitTimestamp(RevCommit commit) {
+		PersonIdent authorIdent = commit.getAuthorIdent();
+		Date authorDate = authorIdent.getWhen();
+		TimeZone authorTimeZone = authorIdent.getTimeZone();
+		return authorDate.toString();
+	}
+	
+	public static String getCommitDescription(RevCommit commit) {
+		System.out.println("Descricao: " + commit.getFullMessage());
+		return commit.getFullMessage();
 	}
 }
 
