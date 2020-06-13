@@ -94,4 +94,5 @@ public class appTest {
 		app.createHTMLTable();
 		assertEquals("Didnt create table", 1, app.doc.select("table").size());
 	}
+	
 }

@@ -167,24 +167,6 @@ public class app {
 		
 	}
 	
-	/**
-	 * Creates the covid-graph-spread.html file and writes all the Document(Jsoup) info
-	 */
-	public static void createHTMLFile() {
-		File out = new File("covid-graph-spread.html");
-	
-		    String html = doc.toString();
-		    BufferedWriter writer;
-			try {
-				writer = new BufferedWriter(new FileWriter(out));
-				writer.write(html);
-			    writer.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		    
-	}
 	
 	/**
 	 * @param tableIndex - the index of the table we want to add the row
