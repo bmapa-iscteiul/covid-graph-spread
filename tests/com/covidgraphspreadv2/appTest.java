@@ -49,7 +49,6 @@ public class appTest {
 			try {
 				commit = (RevCommit)walk.parseAny(call.get(0).getObjectId());
 				timestamp = app.getCommitTimestamp(commit);
-				System.out.println(timestamp);
 			} catch (MissingObjectException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -61,7 +60,7 @@ public class appTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		assertNotNull("A string é um timestamp válido", timestamp);
+		assertNotNull("A string é um timestamp inválido", timestamp);
 	}
 
 	@Test
