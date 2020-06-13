@@ -90,7 +90,7 @@ public class app {
 			RevCommit commit = revWalk.parseCommit(commitId);
 			
 			RevTree tree = commit.getTree();
-			System.out.println(commit.getId());
+			//System.out.println(commit.getId());
 			//System.out.println("Tree: " + tree);
 			try(TreeWalk treeWalk = new TreeWalk(repository)){
 				treeWalk.addTree(tree);
