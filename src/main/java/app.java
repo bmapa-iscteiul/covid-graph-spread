@@ -1,4 +1,4 @@
-package com.covidgraphspreadv2;
+package main.java;
 
 import java.io.File;
 import java.io.IOException;

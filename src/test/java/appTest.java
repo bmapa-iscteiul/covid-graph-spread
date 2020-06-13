@@ -1,8 +1,7 @@
-package com.covidgraphspreadv2;
+package test.java;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.util.List;
@@ -10,10 +9,7 @@ import java.util.List;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevObject;
-import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,7 +17,7 @@ import org.junit.Test;
 public class appTest {
 
 	
-	private com.covidgraphspreadv2.app app;
+	private main.java.app app;
 	@Before
 	public void setUp() throws Exception {
 		app.cloneRepository();
@@ -60,7 +56,7 @@ public class appTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		assertNotNull("A string é um timestamp inválido", timestamp);
+		assertNotNull("A string ï¿½ um timestamp invï¿½lido", timestamp);
 	}
 
 	@Test
@@ -86,7 +82,7 @@ public class appTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		assertNotNull("Hyperlink inválido", hyperlink);
+		assertNotNull("Hyperlink invï¿½lido", hyperlink);
 	}
 
 	@Test
