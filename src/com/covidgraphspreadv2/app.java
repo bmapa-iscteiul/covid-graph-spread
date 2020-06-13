@@ -1,8 +1,6 @@
 package com.covidgraphspreadv2;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Hashtable;
@@ -11,10 +9,6 @@ import java.util.TimeZone;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.api.errors.InvalidRemoteException;
-import org.eclipse.jgit.api.errors.TransportException;
-import org.eclipse.jgit.errors.IncorrectObjectTypeException;
-import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -29,8 +23,6 @@ import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-
-import com.covidgraphspreadv2.cgi_lib;
 public class app {
 
 	public static Git git;
@@ -100,7 +92,6 @@ public class app {
 			RevTree tree = commit.getTree();
 			System.out.println(commit.getId());
 			//System.out.println("Tree: " + tree);
-			
 			try(TreeWalk treeWalk = new TreeWalk(repository)){
 				treeWalk.addTree(tree);
 				treeWalk.setRecursive(true);
