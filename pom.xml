@@ -5,6 +5,11 @@
   <version>0.0.1-SNAPSHOT</version>
   <build>
     <sourceDirectory>src/com/covidgraphspreadv2</sourceDirectory>
+    <resources>
+    <resource>
+       <directory>tests/com/covidgraphspreadv2</directory>
+    </resource>
+</resources>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
