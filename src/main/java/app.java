@@ -92,13 +92,13 @@ public class app {
 	
 	
 	/**
-	 * Clones the remote repository localy to ./repository
+	 * Clones the remote repository localy to c:/path/to/repo
 	 */
 	public static void cloneRepository() {
-		File f = new File("./repository");
+		File f = new File("/path/to/repo");
 		if (f.exists() && f.isDirectory()) {
 			try {
-				git = Git.open(new File("./repository"));
+				git = Git.open(new File("/path/to/repo/.git"));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -107,7 +107,7 @@ public class app {
 			try {
 				git = Git.cloneRepository()
 						.setURI("https://github.com/vbasto-iscte/ESII1920")
-						.setDirectory(new File("./repository"))
+						.setDirectory(new File("/path/to/repo"))
 						.call();
 			} catch (Exception e) {
 				
