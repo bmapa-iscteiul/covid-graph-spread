@@ -132,9 +132,6 @@ public class app {
 		headersRow.append("<th>File tag</th>");
 		headersRow.append("<th>Tag Description</th>");
 		headersRow.append("<th>Spread Visualization Link</th>");
-		//System.out.println(doc.toString());
-		
-		
 	}
 	
 	
