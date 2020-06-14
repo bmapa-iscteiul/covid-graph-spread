@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Hashtable;
 
 import pl.edu.icm.cermine.ContentExtractor;
 import pl.edu.icm.cermine.exception.AnalysisException;
@@ -82,6 +83,12 @@ public class Req3 {
 		File f4 = new File("documentos\\4.pdf");
 		
 		Object[][] ints = {{"Article Title","Journal Name","Publication Year","Authors"},{getTitle(f1),getJournal(f1),getYear(f1),getAuthors(f1)},{getTitle(f2),getJournal(f2),getYear(f2),getAuthors(f1)},{getTitle(f3),getJournal(f3),getYear(f3),getAuthors(f3)},{getTitle(f4),getJournal(f4),getYear(f4),getAuthors(f4)}};
-		System.out.println(array2HTML(ints));
+		String table = array2HTML(ints);
+		
+		System.out.println(cgi_lib.Header());
+		Hashtable form_data = cgi_lib.ReadParse(System.in);
+		System.out.println(table);
+		System.out.println(cgi_lib.HtmlBot());
+		
     }
 }
