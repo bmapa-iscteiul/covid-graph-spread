@@ -48,30 +48,37 @@ public class app {
 	 */
 	public static void getAllFilesFromTags() {
 		Repository repository = git.getRepository();
+		List<Ref> call = getRepositoryTagsList();;
+		for (Ref ref : call) {
+			RevWalk walk = new RevWalk(repository);
+			try {
+				RevObject object = walk.parseAny(ref.getObjectId());
+				//gets the commit associated to the tag
+				if (object instanceof RevCommit) {
+					//retrieves file from commit using the commit ObjectId
+					RevCommit commit = getCommitFromObjectId(ref.getObjectId());
+					addCommitToTable(commit, ref.getName());
+				}
+			} catch (Exception E) {
+					
+			}
+		}
+	}
+	
+	/**
+	 * Gets the list of all references of tags on the repository
+	 * @return 
+	 */
+	public static List getRepositoryTagsList() {
+		Repository repository = git.getRepository();
+		List<Ref> call = null;
 		try {
 			//gets the list of all tags
-			List<Ref> call = git.tagList().call();
+			call = git.tagList().call();
+		}catch (Exception e) {
 			
-			for (Ref ref : call) {
-				//System.out.println("Tag: " + ref.getName());
-				RevWalk walk = new RevWalk(repository);
-				try {
-					RevObject object = walk.parseAny(ref.getObjectId());
-					//gets the commit associated to the tag
-					if (object instanceof RevCommit) {
-						//retrieves file from commit using the commit ObjectId
-						RevCommit commit = getCommitFromObjectId(ref.getObjectId());
-						addCommitToTable(commit, ref.getName());
-					}
-				} catch (Exception E) {
-					
-				}
-			}
-		} catch (GitAPIException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-		
+		return call;
 	}
 	
 	/**

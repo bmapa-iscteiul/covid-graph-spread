@@ -1,6 +1,7 @@
 package test.java;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
@@ -24,7 +25,7 @@ public class appTest {
 	public void setUp() throws Exception {
 		app.cloneRepository();
 	}
-
+	
 	@Test
 	public void testAddRowToHTMLTable() {
 		app.createHTMLTable();
@@ -91,6 +92,17 @@ public class appTest {
 	public void testCreateHTMLTable() {
 		app.createHTMLTable();
 		assertEquals("Didnt create table", 1, app.doc.select("table").size());
+	}
+	
+	@Test
+	public void testSetHTMLTablesCSS() {
+		assertFalse("It has not set any css", app.doc.select("style").isEmpty());
+	}
+	
+	@Test
+	public void testGetRepositoryTagsList() {
+		List<Ref> tags = app.getRepositoryTagsList();
+		assertNotNull("returned null list", tags);
 	}
 	
 	@Test
