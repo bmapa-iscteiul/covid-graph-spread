@@ -10,6 +10,8 @@ import java.util.TimeZone;
 import org.apache.commons.io.FileUtils;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -34,13 +36,10 @@ public class app {
 		setHTMLTablesCSS();
 		cloneRepository();
 		getAllFilesFromTags();
-		//createHTMLFile();
 		System.out.println(cgi_lib.Header());
 		Hashtable form_data = cgi_lib.ReadParse(System.in);
-		
 		System.out.println(doc.select("table"));
 		System.out.println(doc.select("style"));
-		
 		System.out.println(cgi_lib.HtmlBot());
 	}
 	
@@ -58,18 +57,16 @@ public class app {
 				RevWalk walk = new RevWalk(repository);
 				try {
 					RevObject object = walk.parseAny(ref.getObjectId());
-					
 					//gets the commit associated to the tag
 					if (object instanceof RevCommit) {
-						//System.out.println("RevCommit: " + ref.getName());
 						//retrieves file from commit using the commit ObjectId
-						getFileFromCommit(ref.getObjectId(), ref.getName());
+						RevCommit commit = getCommitFromObjectId(ref.getObjectId());
+						addCommitToTable(commit, ref.getName());
 					}
 				} catch (Exception E) {
 					
 				}
 			}
-				
 		} catch (GitAPIException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -78,43 +75,25 @@ public class app {
 	}
 	
 	/**
-	 * given a commit id and its tag, searches for covid19spreading.rdf file
-	 * and if found, adds the commit to the table
-	 * 
-	 * @param commitId - the id of the commit
-	 * @param tag - the tag associated to the commit
+	 * Returns an instance of the RevCommit, given its ObjectId
+	 * @param objectid The object id of the commit
+	 * @return Instance of RevCommit
 	 */
-	public static void getFileFromCommit(ObjectId commitId, String tag) {
+	public static RevCommit getCommitFromObjectId(ObjectId objectid) {
 		Repository repository = git.getRepository();
-	
+		RevCommit commit = null;
 		try(RevWalk revWalk = new RevWalk(repository)){
-			RevCommit commit = revWalk.parseCommit(commitId);
-			
-			RevTree tree = commit.getTree();
-			//System.out.println(commit.getId());
-			//System.out.println("Tree: " + tree);
-			try(TreeWalk treeWalk = new TreeWalk(repository)){
-				treeWalk.addTree(tree);
-				treeWalk.setRecursive(true);
-				treeWalk.setFilter(PathFilter.create("covid19spreading.rdf"));
-				if(!treeWalk.next()) {
-					throw new IllegalStateException("Didnt find file");
-				}
-				
-				ObjectId objectId = treeWalk.getObjectId(0);
-				//System.out.println(getHyperlinkOfFileFromCommit(commit));
-				ObjectLoader loader = repository.open(objectId);
-				addCommitToTable(commit, tag);
-				//loader.copyTo(System.out);
-			}
-			revWalk.dispose();
+			commit = revWalk.parseCommit(objectid);
 		} catch (Exception e) {
-			
+			System.out.println("Couldnt parse the object id to a commit.");
 		}
+		return commit;
 	}
 	
+	
+	
 	/**
-	 * Clones the remote repository localy to c:/path/to/repo
+	 * Clones the remote repository localy to ./repository
 	 */
 	public static void cloneRepository() {
 		File f = new File("./repository");
