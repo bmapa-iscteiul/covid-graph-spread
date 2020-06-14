@@ -7,6 +7,7 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.TimeZone;
 
+import org.apache.commons.io.FileUtils;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.ObjectId;
@@ -41,6 +42,7 @@ public class app {
 		System.out.println(doc.select("style"));
 		
 		System.out.println(cgi_lib.HtmlBot());
+		
 	}
 	
 	/**
@@ -116,24 +118,23 @@ public class app {
 	 * Clones the remote repository localy to c:/path/to/repo
 	 */
 	public static void cloneRepository() {
-		File f = new File("/path/to/repo");
+		File f = new File("./ESII1920");
 		if (f.exists() && f.isDirectory()) {
 			try {
-				git = Git.open(new File("/path/to/repo/.git"));
-			} catch (IOException e) {
+				FileUtils.cleanDirectory(f);
+			} catch (IOException e1) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		} else {
-			try {
-				git = Git.cloneRepository()
-						.setURI("https://github.com/vbasto-iscte/ESII1920")
-						.setDirectory(new File("/path/to/repo"))
-						.call();
-			} catch (Exception e) {
-				
+				e1.printStackTrace();
 			}
 		}
+		try {
+			git = Git.cloneRepository()
+					.setURI("https://github.com/vbasto-iscte/ESII1920")
+					.call();
+		} catch (Exception e) {
+				
+		}
+		
 	}
 	
 	/**
