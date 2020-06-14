@@ -96,6 +96,7 @@ public class appTest {
 	
 	@Test
 	public void testSetHTMLTablesCSS() {
+		app.setHTMLTablesCSS();
 		assertFalse("It has not set any css", app.doc.select("style").isEmpty());
 	}
 	
@@ -103,6 +104,15 @@ public class appTest {
 	public void testGetRepositoryTagsList() {
 		List<Ref> tags = app.getRepositoryTagsList();
 		assertNotNull("returned null list", tags);
+	}
+	
+	@Test
+	public void testAddCommitToTable() {
+		app.createHTMLTable();
+		List<Ref> tags = app.getRepositoryTagsList();
+		RevCommit commit = app.getCommitFromObjectId(tags.get(1).getObjectId());
+		app.addCommitToTable(commit, "yo/yo/yo");
+		assertEquals("Didnt add any row",  2 , app.doc.select("table").select("tr").size());
 	}
 	
 	@Test

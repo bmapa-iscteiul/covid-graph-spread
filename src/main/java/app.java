@@ -7,22 +7,16 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.TimeZone;
 
-import org.apache.commons.io.FileUtils;
+import main.java.cgi_lib;
+
 import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.errors.IncorrectObjectTypeException;
-import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
-import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.treewalk.TreeWalk;
-import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -36,6 +30,7 @@ public class app {
 		setHTMLTablesCSS();
 		cloneRepository();
 		getAllFilesFromTags();
+		
 		System.out.println(cgi_lib.Header());
 		Hashtable form_data = cgi_lib.ReadParse(System.in);
 		System.out.println(doc.select("table"));
@@ -67,7 +62,7 @@ public class app {
 	
 	/**
 	 * Gets the list of all references of tags on the repository
-	 * @return 
+	 * @return List with tags
 	 */
 	public static List getRepositoryTagsList() {
 		Repository repository = git.getRepository();
