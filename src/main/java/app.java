@@ -42,7 +42,6 @@ public class app {
 		System.out.println(doc.select("style"));
 		
 		System.out.println(cgi_lib.HtmlBot());
-		
 	}
 	
 	/**
@@ -118,23 +117,24 @@ public class app {
 	 * Clones the remote repository localy to c:/path/to/repo
 	 */
 	public static void cloneRepository() {
-		File f = new File("./ESII1920");
+		File f = new File("./repository");
 		if (f.exists() && f.isDirectory()) {
 			try {
-				FileUtils.cleanDirectory(f);
-			} catch (IOException e1) {
+				git = Git.open(new File("./repository"));
+			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				e.printStackTrace();
+			}
+		} else {
+			try {
+				git = Git.cloneRepository()
+						.setURI("https://github.com/vbasto-iscte/ESII1920")
+						.setDirectory(new File("./repository"))
+						.call();
+			} catch (Exception e) {
+				
 			}
 		}
-		try {
-			git = Git.cloneRepository()
-					.setURI("https://github.com/vbasto-iscte/ESII1920")
-					.call();
-		} catch (Exception e) {
-				
-		}
-		
 	}
 	
 	/**
