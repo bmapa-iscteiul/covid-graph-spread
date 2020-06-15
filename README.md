@@ -4,8 +4,8 @@ Bruno Pereira 82990
 Miguel Neto 68625
 
 Covid-graph-spread consists of 2 minor applications. 
-  - Covid-graph-spread
-  - Covid-query
+  - Covid-graph-spread (Bruno)
+  - Covid-query (Miguel)
    
 
 Covid-graph-spread 
