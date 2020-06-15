@@ -5,7 +5,7 @@ Miguel Neto 68625
 
 Covid-graph-spread consists of 2 minor applications. 
   - Covid-graph-spread
-   -Covid-query
+  - Covid-query
    
 
 Covid-graph-spread 
@@ -21,7 +21,8 @@ How to make the apps work in a docker container:
   3. Open a command line terminal
   4. Use the command "docker build -t wordpress-with-java-covid"
   5. Use the command "docker-compose up -d"
-  6. Take all the files in the "jars" folder of the git repository, and place them at the cgi-bin folder that was just created
-  7. Browse to "http://localhost" to visit the website
+  6. Extract the .zip file from the github project
+  7. Take all the files in the "jars" folder of the git repository, and place them at the cgi-bin folder that was just created
+  8. Browse to "http://localhost" to visit the website
   
   
