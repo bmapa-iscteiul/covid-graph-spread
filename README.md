@@ -9,7 +9,7 @@ Covid-graph-spread consists of 2 minor applications.
    
 
 Covid-graph-spread 
-Every requirement was fully developed. 
+The app is able to extract all the tags and files from the repository, however it may be faulty when adding new commits to the repository.
 
 Covid-query
 The app is able to extract all metadata from pdf files using CERMINE, however due to the fact that there is no Covid Scientific Discoveries Repository, the files used were the ones available at e-learning, and accessed localy.
