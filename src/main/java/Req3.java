@@ -82,7 +82,7 @@ public class Req3 {
 		File f3 = new File("documentos\\3.pdf");
 		File f4 = new File("documentos\\4.pdf");
 		
-		Object[][] ints = {{"Article Title","Journal Name","Publication Year","Authors"},{getTitle(f1),getJournal(f1),getYear(f1),getAuthors(f1)},{getTitle(f2),getJournal(f2),getYear(f2),getAuthors(f1)},{getTitle(f3),getJournal(f3),getYear(f3),getAuthors(f3)},{getTitle(f4),getJournal(f4),getYear(f4),getAuthors(f4)}};
+		Object[][] ints = {{"Article Title","Journal Name","Publication Year","Authors"},{getTitle(f1),getJournal(f1),getYear(f1),getAuthors(f1)},{getTitle(f4),getJournal(f4),getYear(f4),getAuthors(f4)}};
 		String table = array2HTML(ints);
 		
 		System.out.println(cgi_lib.Header());
