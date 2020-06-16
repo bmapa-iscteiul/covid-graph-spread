@@ -105,15 +105,14 @@ public class Req4 {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		} else {
-			try {
+		}
+		try {
 				git = Git.cloneRepository()
 						.setURI("https://github.com/vbasto-iscte/ESII1920")
 						.setDirectory(new File("/path/to/repo"))
 						.call();
-			} catch (Exception e) {
+		} catch (Exception e) {
 				
-			}
 		}
 	}
 	

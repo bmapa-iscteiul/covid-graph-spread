@@ -46,7 +46,7 @@ public class Req4Test {
 			RevWalk walk = new RevWalk(app.git.getRepository());
 			RevCommit commit;
 			try {
-				commit = (RevCommit)walk.parseAny(call.get(0).getObjectId());
+				commit = (RevCommit)walk.parseAny(call.get(1).getObjectId());
 				timestamp = app.getCommitTimestamp(commit);
 			} catch (MissingObjectException e) {
 				// TODO Auto-generated catch block
@@ -72,7 +72,7 @@ public class Req4Test {
 			RevWalk walk = new RevWalk(app.git.getRepository());
 			RevCommit commit;
 			try {
-				commit = (RevCommit)walk.parseAny(call.get(0).getObjectId());
+				commit = (RevCommit)walk.parseAny(call.get(1).getObjectId());
 				hyperlink = app.getHyperlinkOfFileFromCommit(commit);
 			} catch (MissingObjectException e) {
 				// TODO Auto-generated catch block
