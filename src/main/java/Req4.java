@@ -97,22 +97,23 @@ public class Req4 {
 	 * Clones the remote repository localy to c:/path/to/repo
 	 */
 	public static void cloneRepository() {
-		File f = new File("/path/to/repo");
+		File f = new File("./repository");
 		if (f.exists() && f.isDirectory()) {
 			try {
-				git = Git.open(new File("/path/to/repo/.git"));
+				git = Git.open(new File("./repository"));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
-		try {
+		} else {
+			try {
 				git = Git.cloneRepository()
 						.setURI("https://github.com/vbasto-iscte/ESII1920")
-						.setDirectory(new File("/path/to/repo"))
+						.setDirectory(new File("./repository"))
 						.call();
-		} catch (Exception e) {
+			} catch (Exception e) {
 				
+			}
 		}
 	}
 	
